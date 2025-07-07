@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Github } from "lucide-react";
-import { useRepos, useUser } from "./features/hooks/useGithubSearch";
+import { useRepos, useUser } from "./features/query/useGithubSearch";
 import { SearchSection } from "./features/components/search-section";
 import { UserSection } from "./features/components/user-section";
 import { EmptyState } from "./features/components/empty-state";
