@@ -1,8 +1,10 @@
 import { useState, useCallback } from "react";
-import { Github, AlertCircle } from "lucide-react";
+import { Github } from "lucide-react";
 import { useRepos, useUser } from "./features/hooks/useGithubSearch";
 import { SearchSection } from "./features/components/search-section";
 import { UserSection } from "./features/components/user-section";
+import { EmptyState } from "./features/components/empty-state";
+import { Error } from "./features/components/error";
 
 function App() {
   const [submittedQuery, setSubmittedQuery] = useState("");
@@ -60,39 +62,13 @@ function App() {
         />
 
         {/* Error State */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-2xl shadow-lg mb-6 sm:mb-8 overflow-hidden">
-            <div className="p-6">
-              <div className="flex items-center justify-center text-red-600">
-                <AlertCircle className="w-5 h-5 mr-2" />
-                <span className="text-sm sm:text-base font-medium">
-                  {error instanceof Error ? error.message : "An error occurred"}
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
+        <Error error={error} />
 
         {/* User Profile */}
         <UserSection user={user} repositories={repositories} />
 
         {/* Empty State */}
-        {!user && !loading && !error && (
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 text-center py-8 sm:py-12 overflow-hidden">
-            <div className="p-6">
-              <div className="w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
-                <Github className="w-8 h-8 sm:w-12 sm:h-12 text-white" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2 text-slate-900">
-                Ready to explore GitHub?
-              </h3>
-              <p className="text-sm sm:text-base text-slate-600 max-w-md mx-auto">
-                Enter a GitHub username above to discover their profile,
-                repositories, and contributions to the open source community.
-              </p>
-            </div>
-          </div>
-        )}
+        <EmptyState user={!!user} loading={loading} error={!!error} />
       </main>
     </div>
   );
