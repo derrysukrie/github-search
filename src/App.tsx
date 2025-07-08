@@ -38,10 +38,6 @@ function App() {
     setSubmittedQuery("");
   }, []);
 
-  const handleUserSelect = (username: string) => {
-    setSubmittedQuery(username);
-    setSearchQuery("");
-  };
 
   const error = userError || reposError || searchError;
   const loading = userLoading || reposLoading || searchLoading;
@@ -84,7 +80,7 @@ function App() {
 
         {/* User Search Results */}
         {searchedUsers && searchedUsers.length > 0 && (
-          <UserList users={searchedUsers} onUserSelect={handleUserSelect} />
+          <UserList users={searchedUsers} />
         )}
 
         {/* User Profile */}
