@@ -4,12 +4,12 @@ import {
   useRepos,
   useUser,
   useSearchUsers,
-} from "./features/query/useGithubSearch";
-import { SearchSection } from "./features/components/search-section";
-import { UserSection } from "./features/components/user-section";
-import { EmptyState } from "./features/components/empty-state";
-import { Error } from "./features/components/error";
-import { UserList } from "./features/components/user-list";
+  SearchSection,
+  UserSection,
+  EmptyState,
+  Error,
+  UserList,
+} from "./features/home";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,7 +37,6 @@ function App() {
     setSearchQuery(query);
     setSubmittedQuery("");
   }, []);
-
 
   const error = userError || reposError || searchError;
   const loading = userLoading || reposLoading || searchLoading;

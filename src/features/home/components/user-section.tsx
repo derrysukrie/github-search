@@ -10,9 +10,10 @@ import {
   Star,
   Users,
 } from "lucide-react";
-import { formatDate } from "../../utils/format-date";
-import { LanguageColors } from "../../constant/languageColors";
 import { GitHubUser, Repository } from "../types/response";
+import { LanguageColors } from "../../../constant/languageColors";
+import { formatDate } from "../../../utils";
+
 
 type UserSectionProps = {
   user: GitHubUser | undefined;

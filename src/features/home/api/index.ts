@@ -1,5 +1,6 @@
+import { BASE_URL } from '../../../constant/baseURL';
 import { GitHubUser, Repository } from '../types/response';
-import { BASE_URL } from '../../constant/baseURL';
+
 
 export const searchUsers = async (query: string): Promise<GitHubUser[]> => {
   if (!query) return [];

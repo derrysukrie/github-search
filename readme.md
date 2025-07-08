@@ -2,6 +2,12 @@
 
 A modern, responsive React application for searching and exploring GitHub users and their repositories. Built with TypeScript, Vite, and Tailwind CSS.
 
+## 🚀 Live Demo
+
+**[View Live Application](https://coruscating-tarsier-050eb6.netlify.app/)**
+
+Try the app now! Search for GitHub users and explore their repositories with our interactive demo.
+
 ## Features
 
 ### 🔍 User Search
