@@ -1,5 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchRepos, fetchUser } from '../api';
+import { fetchRepos, fetchUser, searchUsers } from '../api';
+
+export const useSearchUsers = (query: string) => {
+  return useQuery({
+    queryKey: ['users', query],
+    queryFn: () => searchUsers(query),
+    enabled: !!query,
+    retry: false,
+  });
+};
 
 export const useUser = (username: string) => {
   return useQuery({

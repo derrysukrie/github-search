@@ -1,12 +1,18 @@
 import { useState, useCallback } from "react";
 import { Github } from "lucide-react";
-import { useRepos, useUser } from "./features/query/useGithubSearch";
+import {
+  useRepos,
+  useUser,
+  useSearchUsers,
+} from "./features/query/useGithubSearch";
 import { SearchSection } from "./features/components/search-section";
 import { UserSection } from "./features/components/user-section";
 import { EmptyState } from "./features/components/empty-state";
 import { Error } from "./features/components/error";
+import { UserList } from "./features/components/user-list";
 
 function App() {
+  const [searchQuery, setSearchQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
 
   const {
@@ -16,17 +22,29 @@ function App() {
   } = useUser(submittedQuery);
 
   const {
+    data: searchedUsers,
+    error: searchError,
+    isLoading: searchLoading,
+  } = useSearchUsers(searchQuery);
+
+  const {
     data: repositories = [],
     error: reposError,
     isLoading: reposLoading,
   } = useRepos(submittedQuery);
 
   const handleSearch = useCallback((query: string) => {
-    setSubmittedQuery(query);
+    setSearchQuery(query);
+    setSubmittedQuery("");
   }, []);
 
-  const error = userError || reposError;
-  const loading = userLoading || reposLoading;
+  const handleUserSelect = (username: string) => {
+    setSubmittedQuery(username);
+    setSearchQuery("");
+  };
+
+  const error = userError || reposError || searchError;
+  const loading = userLoading || reposLoading || searchLoading;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -55,8 +73,8 @@ function App() {
       <main className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Search Section */}
         <SearchSection
-          key={submittedQuery}
-          initialQuery={submittedQuery}
+          key={searchQuery}
+          initialQuery={searchQuery}
           onSearch={handleSearch}
           loading={loading}
         />
@@ -64,11 +82,20 @@ function App() {
         {/* Error State */}
         <Error error={error} />
 
+        {/* User Search Results */}
+        {searchedUsers && searchedUsers.length > 0 && (
+          <UserList users={searchedUsers} onUserSelect={handleUserSelect} />
+        )}
+
         {/* User Profile */}
-        <UserSection user={user} repositories={repositories} />
+        {user && <UserSection user={user} repositories={repositories} />}
 
         {/* Empty State */}
-        <EmptyState user={!!user} loading={loading} error={!!error} />
+        <EmptyState
+          user={!!user || !!(searchedUsers && searchedUsers.length > 0)}
+          loading={loading}
+          error={!!error}
+        />
       </main>
     </div>
   );

@@ -1,6 +1,16 @@
 import { GitHubUser, Repository } from '../types/response';
 import { BASE_URL } from '../../constant/baseURL';
 
+export const searchUsers = async (query: string): Promise<GitHubUser[]> => {
+  if (!query) return [];
+  const response = await fetch(`${BASE_URL}/search/users?q=${query}&per_page=5`);
+  if (!response.ok) {
+    throw new Error('Failed to search users');
+  }
+  const data = await response.json();
+  return data.items;
+};
+
 export const fetchUser = async (username: string): Promise<GitHubUser> => {
   if (!username) throw new Error('Username cannot be empty');
   const response = await fetch(`${BASE_URL}/users/${username}`);
